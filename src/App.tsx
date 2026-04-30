@@ -4,6 +4,7 @@ import { calculateAllBands } from './utils/calculations';
 import { Header } from './components/Header';
 import { SalaryInput } from './components/SalaryInput';
 import { ResultsGrid } from './components/ResultsGrid';
+import { HoursCalculator } from './components/HoursCalculator';
 import { Footer } from './components/Footer';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Header />
       <SalaryInput salary={salary} onChange={setSalary} />
       <ResultsGrid results={results} />
+      <HoursCalculator results={results} />
       <Footer />
     </div>
   );
