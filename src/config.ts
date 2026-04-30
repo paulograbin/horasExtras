@@ -12,18 +12,6 @@ export const CONFIG: Config = {
   // Use 200 para jornada de 40h/semana, ou 180 para escala 12×36
   horasMensais: 200,
 
-
-  // 2 Primeiras Horas Extras 50%	
-  // "A partir da 3a Hora Extra   // 75%"
-  // 	"HE com Adicional Noturno na Semana e Sábado (22:00hs - 5:00hs)
-  // 220,25%"	"Horas Extras
-  // aos Sábados
-  // 75%"	"Horas Extras aos Domingos e Feriados
-  // 100%"	"HE com Adicional Noturno aos Domingos e Feriados (22:00hs - 5:00hs)
-  // 265,68%"	"Sobreaviso
-  // 33%"
-
-
   bands: [
     {
       id: 'base',
@@ -35,7 +23,7 @@ export const CONFIG: Config = {
     },
     {
       id: 'extra50',
-      name: 'Hora Extra 50%',
+      name: '2 primemiras horas extra',
       description: 'Duas primeiras horas extras',
       multiplier: 1.5,
       legalBasis: '',
@@ -43,7 +31,7 @@ export const CONFIG: Config = {
     },
     {
       id: 'extra75',
-      name: 'Hora Extra 75%',
+      name: 'A partir da 3a Hora Extra',
       description: 'A partir da 3 hora extra',
       multiplier: 1.75,
       legalBasis: '',
@@ -51,15 +39,25 @@ export const CONFIG: Config = {
     },
     {
       id: 'extra100',
-      name: 'Hora extra com adicional noturno e sábado',
+      name: 'HE com Adicional Noturno na Semana e Sábado (22:00hs - 5:00hs)',
       description: 'Adicional noturno na semana e sabado (22h até 5h)',
       multiplier: 2.225,
       legalBasis: '',
       category: 'overtime',
     },
+
+    {
+      id: 'sabado75',
+      name: 'Horas Extras aos Sábados',
+      description: 'Adicional noturno na semana e sabado (22h até 5h)',
+      multiplier: 1.75,
+      legalBasis: '',
+      category: 'overtime',
+    },
+
     {
       id: 'domingo',
-      name: 'Domingos e feriados',
+      name: 'Horas Extras aos Domingos e Feriados',
       description: '',
       multiplier: 2,
       legalBasis: '',
@@ -67,7 +65,7 @@ export const CONFIG: Config = {
     },
     {
       id: 'extraNoturna50',
-      name: 'Hora Extra com adicional noturno aos domingos e feriados',
+      name: 'HE com Adicional Noturno aos Domingos e Feriados (22:00hs - 5:00hs)',
       description: 'Hora extra em dia útil no período noturno',
       multiplier: 2.6568, // 1.5 × 1.2
       legalBasis: '',

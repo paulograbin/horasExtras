@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { CalculationResult } from '../types';
 import { formatBRL } from '../utils/calculations';
 
@@ -7,7 +7,14 @@ interface HoursCalculatorProps {
 }
 
 export function HoursCalculator({ results }: HoursCalculatorProps) {
-  const [hours, setHours] = useState<Record<string, number>>({});
+  const [hours, setHours] = useState<Record<string, number>>(() => {
+    const saved = localStorage.getItem('hours');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('hours', JSON.stringify(hours));
+  }, [hours]);
 
   const handleHoursChange = (bandId: string, value: string) => {
     const parsed = parseFloat(value);

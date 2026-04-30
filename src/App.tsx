@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CONFIG } from './config';
 import { calculateAllBands } from './utils/calculations';
 import { Header } from './components/Header';
@@ -8,7 +8,14 @@ import { HoursCalculator } from './components/HoursCalculator';
 import { Footer } from './components/Footer';
 
 function App() {
-  const [salary, setSalary] = useState(0);
+  const [salary, setSalary] = useState(() => {
+    const saved = localStorage.getItem('salary');
+    return saved ? Number(saved) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('salary', String(salary));
+  }, [salary]);
 
   const results = useMemo(
     () => calculateAllBands(salary, CONFIG),
