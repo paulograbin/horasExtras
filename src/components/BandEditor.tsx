@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Band, BandCategory } from '../types';
 import { DEFAULT_BANDS } from '../config';
 
@@ -6,6 +6,7 @@ interface BandEditorProps {
   bands: Band[];
   onChange: (bands: Band[]) => void;
   onClose: () => void;
+  focusBandId?: string | null;
 }
 
 const CATEGORIES: { value: BandCategory; label: string }[] = [
@@ -15,9 +16,21 @@ const CATEGORIES: { value: BandCategory; label: string }[] = [
   { value: 'special', label: 'Especial' },
 ];
 
-export function BandEditor({ bands, onChange, onClose }: BandEditorProps) {
+export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditorProps) {
   const [draft, setDraft] = useState<Band[]>(bands);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (focusBandId && listRef.current) {
+      const el = listRef.current.querySelector(`[data-band-id="${focusBandId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('ring-2', 'ring-blue-400');
+        setTimeout(() => el.classList.remove('ring-2', 'ring-blue-400'), 1500);
+      }
+    }
+  }, [focusBandId]);
 
   const updateBand = (id: string, updates: Partial<Band>) => {
     setDraft((prev) =>
@@ -77,10 +90,11 @@ export function BandEditor({ bands, onChange, onClose }: BandEditorProps) {
         </div>
 
         {/* Band list */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+        <div ref={listRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
           {draft.map((band) => (
             <div
               key={band.id}
+              data-band-id={band.id}
               className="border border-gray-200 rounded-lg p-3 space-y-2"
             >
               <div className="flex items-start gap-2">

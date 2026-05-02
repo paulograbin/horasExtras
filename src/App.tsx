@@ -21,6 +21,7 @@ function App() {
   });
 
   const [editorOpen, setEditorOpen] = useState(false);
+  const [focusBandId, setFocusBandId] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem('salary', String(salary));
@@ -35,11 +36,16 @@ function App() {
     [salary, bands]
   );
 
+  const openEditorForBand = (bandId: string) => {
+    setFocusBandId(bandId);
+    setEditorOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Header onOpenEditor={() => setEditorOpen(true)} />
+      <Header onOpenEditor={() => { setFocusBandId(null); setEditorOpen(true); }} />
       <SalaryInput salary={salary} onChange={setSalary} />
-      <ResultsGrid results={results} />
+      <ResultsGrid results={results} onLongPressBand={openEditorForBand} />
       <HoursCalculator results={results} />
       <Footer />
       {editorOpen && (
@@ -47,6 +53,7 @@ function App() {
           bands={bands}
           onChange={setBands}
           onClose={() => setEditorOpen(false)}
+          focusBandId={focusBandId}
         />
       )}
     </div>
