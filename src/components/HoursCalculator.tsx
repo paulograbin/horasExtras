@@ -39,7 +39,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
         Calculadora de Horas
       </h2>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-clip">
         {/* Header - hidden on mobile */}
         <div className="hidden sm:grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wide">
           <span>Faixa</span>
