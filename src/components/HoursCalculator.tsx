@@ -24,7 +24,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
   }, [hours]);
 
   const handleHoursChange = (bandId: string, value: string) => {
-    const parsed = parseFloat(value);
+    const parsed = parseInt(value, 10);
     setHours((prev) => ({ ...prev, [bandId]: isNaN(parsed) ? 0 : parsed }));
   };
 
@@ -69,7 +69,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
                 <input
                   type="number"
                   min="0"
-                  step="0.5"
+                  step="1"
                   value={h || ''}
                   onChange={(e) => handleHoursChange(result.band.id, e.target.value)}
                   placeholder="0"
@@ -94,7 +94,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
                   <input
                     type="number"
                     min="0"
-                    step="0.5"
+                    step="1"
                     value={h || ''}
                     onChange={(e) => handleHoursChange(result.band.id, e.target.value)}
                     placeholder="0"
