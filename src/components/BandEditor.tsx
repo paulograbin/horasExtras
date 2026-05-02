@@ -102,7 +102,7 @@ export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditor
                   type="text"
                   value={band.name}
                   onChange={(e) => updateBand(band.id, { name: e.target.value })}
-                  className="flex-1 text-sm font-medium border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                  className="flex-1 text-base font-medium border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
                   placeholder="Nome da faixa"
                 />
                 {confirmDelete === band.id ? (
@@ -149,7 +149,7 @@ export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditor
                         multiplier: parseFloat(e.target.value) || 0,
                       })
                     }
-                    className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                    className="w-full text-base border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
                   />
                 </div>
                 <div className="flex-1">
@@ -163,7 +163,7 @@ export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditor
                         category: e.target.value as BandCategory,
                       })
                     }
-                    className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none bg-white"
+                    className="w-full text-base border border-gray-300 rounded-lg px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none bg-white"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat.value} value={cat.value}>

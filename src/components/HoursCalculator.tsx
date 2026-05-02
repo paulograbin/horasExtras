@@ -73,7 +73,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
                   value={h || ''}
                   onChange={(e) => handleHoursChange(result.band.id, e.target.value)}
                   placeholder="0"
-                  className="w-24 text-center text-sm border border-gray-300 rounded-lg py-2 px-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                  className="w-24 text-center text-base border border-gray-300 rounded-lg py-2 px-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
                 />
                 <span className="w-32 text-right text-sm font-semibold text-gray-900">
                   {formatBRL(subtotal)}
@@ -98,7 +98,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
                     value={h || ''}
                     onChange={(e) => handleHoursChange(result.band.id, e.target.value)}
                     placeholder="0"
-                    className="w-20 text-center text-sm border border-gray-300 rounded-lg py-2.5 px-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                    className="w-20 text-center text-base border border-gray-300 rounded-lg py-2.5 px-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
                   />
                   <span className="text-xs text-gray-400">×</span>
                   <span className="text-sm font-semibold text-gray-900 ml-auto">
