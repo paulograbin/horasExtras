@@ -43,6 +43,7 @@ export function BandCard({ result, onLongPress }: BandCardProps) {
   const styles = categoryStyles[band.category];
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const firedRef = useRef(false);
+  const startPos = useRef({ x: 0, y: 0 });
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -51,12 +52,22 @@ export function BandCard({ result, onLongPress }: BandCardProps) {
     }
   }, []);
 
-  const handlePointerDown = () => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     firedRef.current = false;
+    startPos.current = { x: e.clientX, y: e.clientY };
     timerRef.current = setTimeout(() => {
       firedRef.current = true;
       onLongPress();
     }, LONG_PRESS_MS);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!timerRef.current) return;
+    const dx = e.clientX - startPos.current.x;
+    const dy = e.clientY - startPos.current.y;
+    if (dx * dx + dy * dy > 100) {
+      clearTimer();
+    }
   };
 
   const handlePointerUp = () => {
@@ -71,8 +82,9 @@ export function BandCard({ result, onLongPress }: BandCardProps) {
 
   return (
     <div
-      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-4 sm:p-5 transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] select-none touch-none`}
+      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-4 sm:p-5 transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] select-none`}
       onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerLeave={clearTimer}
       onContextMenu={handleContextMenu}
