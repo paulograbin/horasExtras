@@ -21,7 +21,7 @@ export const CONFIG: Config = {
     },
     {
       id: 'extra50',
-      name: '2 primemiras horas extra',
+      name: '2 primeiras horas extra',
       multiplier: 1.5,
       category: 'overtime',
     },
