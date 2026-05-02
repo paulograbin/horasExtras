@@ -46,19 +46,12 @@ export function BandCard({ result }: BandCardProps) {
         <h3 className="font-bold text-gray-900 text-sm leading-tight">
           {band.name}
         </h3>
-        <span
-          className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ml-2 ${styles.badge}`}
-        >
-          {band.legalBasis}
-        </span>
       </div>
 
       <div className="text-2xl font-bold text-gray-900 mb-2">
         {formatBRL(valorHora)}
         <span className="text-sm font-normal text-gray-500">/hora</span>
       </div>
-
-      <p className="text-xs text-gray-600 mb-2">{band.description}</p>
 
       <div className="text-xs font-mono text-gray-500 bg-white/60 rounded px-2 py-1">
         base × {formatMultiplier(band.multiplier)}
