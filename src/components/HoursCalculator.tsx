@@ -74,11 +74,9 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
         })}
 
         {/* Total */}
-        <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-4 bg-gray-50 border-t-2 border-gray-300 items-center">
+        <div className="flex items-center justify-between px-4 sm:px-5 py-4 bg-gray-50 border-t-2 border-gray-300">
           <span className="text-base font-bold text-gray-900">Total</span>
-          <span className="w-28"></span>
-          <span className="w-24"></span>
-          <span className="w-32 text-right text-lg font-bold text-green-700">
+          <span className="text-lg font-bold text-green-700">
             {formatBRL(grandTotal)}
           </span>
         </div>
