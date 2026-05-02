@@ -1,5 +1,3 @@
-import { CONFIG } from '../config';
-
 export function Footer() {
   return (
     <footer className="text-center py-6 px-4 border-t border-gray-200 mt-auto">
