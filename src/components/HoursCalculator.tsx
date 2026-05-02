@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { CalculationResult, BandCategory } from '../types';
 import { formatBRL } from '../utils/calculations';
+import { logEvent } from '../utils/logger';
 
 const categoryBorder: Record<BandCategory, string> = {
   base: 'border-l-gray-400',
@@ -25,7 +26,9 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
 
   const handleHoursChange = (bandId: string, value: string) => {
     const parsed = parseInt(value, 10);
-    setHours((prev) => ({ ...prev, [bandId]: isNaN(parsed) ? 0 : parsed }));
+    const hours = isNaN(parsed) ? 0 : parsed;
+    logEvent('hours_changed', { bandId, hours });
+    setHours((prev) => ({ ...prev, [bandId]: hours }));
   };
 
   const grandTotal = results.reduce(

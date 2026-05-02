@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Band, BandCategory } from '../types';
 import { DEFAULT_BANDS } from '../config';
+import { logEvent } from '../utils/logger';
 
 interface BandEditorProps {
   bands: Band[];
@@ -39,6 +40,8 @@ export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditor
   };
 
   const deleteBand = (id: string) => {
+    const band = draft.find((b) => b.id === id);
+    logEvent('band_deleted', { bandId: id, bandName: band?.name });
     setDraft((prev) => prev.filter((b) => b.id !== id));
     setConfirmDelete(null);
   };
@@ -50,15 +53,18 @@ export function BandEditor({ bands, onChange, onClose, focusBandId }: BandEditor
       multiplier: 1.5,
       category: 'overtime',
     };
+    logEvent('band_added', { bandId: newBand.id });
     setDraft((prev) => [...prev, newBand]);
   };
 
   const handleSave = () => {
+    logEvent('bands_saved', { count: draft.length });
     onChange(draft);
     onClose();
   };
 
   const handleReset = () => {
+    logEvent('bands_reset');
     setDraft(DEFAULT_BANDS);
   };
 

@@ -1,3 +1,5 @@
+import { logEvent } from '../utils/logger';
+
 interface SalaryInputProps {
   salary: number;
   onChange: (value: number) => void;
@@ -6,7 +8,9 @@ interface SalaryInputProps {
 export function SalaryInput({ salary, onChange }: SalaryInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/\D/g, '');
-    onChange(Number(raw) / 100);
+    const value = Number(raw) / 100;
+    logEvent('salary_changed', { salary: value });
+    onChange(value);
   };
 
   const displayValue = salary.toLocaleString('pt-BR', {
