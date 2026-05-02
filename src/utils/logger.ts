@@ -6,7 +6,7 @@ interface EventEntry {
 
 let queue: EventEntry[] = [];
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
-const FLUSH_INTERVAL = 5000;
+const FLUSH_INTERVAL = 30000;
 
 function flush() {
   if (queue.length === 0) return;
