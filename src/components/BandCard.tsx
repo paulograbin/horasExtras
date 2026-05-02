@@ -40,17 +40,17 @@ export function BandCard({ result }: BandCardProps) {
 
   return (
     <div
-      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-5 transition-all hover:shadow-lg hover:-translate-y-0.5`}
+      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-4 sm:p-5 transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]`}
     >
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-2 sm:mb-3">
         <h3 className="font-bold text-gray-900 text-sm leading-tight">
           {band.name}
         </h3>
       </div>
 
-      <div className="text-2xl font-bold text-gray-900 mb-2">
+      <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
         {formatBRL(valorHora)}
-        <span className="text-sm font-normal text-gray-500">/hora</span>
+        <span className="text-xs sm:text-sm font-normal text-gray-500">/hora</span>
       </div>
 
       <div className="text-xs font-mono text-gray-500 bg-white/60 rounded px-2 py-1">
