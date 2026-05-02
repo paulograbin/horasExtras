@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
-import type { CalculationResult } from '../types';
+import type { CalculationResult, BandCategory } from '../types';
 import { formatBRL } from '../utils/calculations';
+
+const categoryBorder: Record<BandCategory, string> = {
+  base: 'border-l-gray-400',
+  overtime: 'border-l-blue-400',
+  night: 'border-l-purple-400',
+  special: 'border-l-amber-400',
+};
 
 interface HoursCalculatorProps {
   results: CalculationResult[];
@@ -49,7 +56,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
           return (
             <div
               key={result.band.id}
-              className="border-b border-gray-100 last:border-b-0"
+              className={`border-b border-gray-100 last:border-b-0 border-l-4 ${categoryBorder[result.band.category]}`}
             >
               {/* Desktop row */}
               <div className="hidden sm:grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3 items-center">
