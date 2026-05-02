@@ -111,7 +111,7 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
         })}
 
         {/* Total */}
-        <div className="flex items-center justify-between px-4 sm:px-5 py-4 bg-gray-50 border-t-2 border-gray-300">
+        <div className="sticky bottom-0 flex items-center justify-between px-4 sm:px-5 py-4 bg-gray-50 border-t-2 border-gray-300">
           <span className="text-base font-bold text-gray-900">Total</span>
           <span className="text-lg font-bold text-green-700">
             {formatBRL(grandTotal)}
