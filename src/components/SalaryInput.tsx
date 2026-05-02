@@ -15,7 +15,7 @@ export function SalaryInput({ salary, onChange }: SalaryInputProps) {
   });
 
   return (
-    <div className="max-w-md mx-auto px-4 mb-8">
+    <div className="max-w-md mx-auto px-4 mb-6 sm:mb-8">
       <label
         htmlFor="salary"
         className="block text-sm font-medium text-gray-700 mb-2"
@@ -33,7 +33,7 @@ export function SalaryInput({ salary, onChange }: SalaryInputProps) {
           value={displayValue}
           onChange={handleChange}
           placeholder="0,00"
-          className="w-full pl-12 pr-4 py-4 text-2xl font-semibold text-gray-900 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+          className="w-full pl-12 pr-4 py-3.5 sm:py-4 text-xl sm:text-2xl font-semibold text-gray-900 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
         />
       </div>
     </div>
