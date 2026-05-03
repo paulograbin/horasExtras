@@ -1,14 +1,10 @@
-import { useRef, useCallback } from 'react';
 import type { CalculationResult, BandCategory } from '../types';
 import { formatBRL } from '../utils/calculations';
 
 interface BandCardProps {
   result: CalculationResult;
-  onLongPress: () => void;
   onDelete: () => void;
 }
-
-const LONG_PRESS_MS = 500;
 
 function formatMultiplier(m: number): string {
   if (Math.abs(m - 1 / 3) < 0.001) return '1/3';
@@ -39,64 +35,20 @@ const categoryStyles: Record<BandCategory, { border: string; bg: string; badge: 
   },
 };
 
-export function BandCard({ result, onLongPress, onDelete }: BandCardProps) {
+export function BandCard({ result, onDelete }: BandCardProps) {
   const { band, valorHora } = result;
   const styles = categoryStyles[band.category];
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const firedRef = useRef(false);
-  const startPos = useRef({ x: 0, y: 0 });
-
-  const clearTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  }, []);
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    firedRef.current = false;
-    startPos.current = { x: e.clientX, y: e.clientY };
-    timerRef.current = setTimeout(() => {
-      firedRef.current = true;
-      onLongPress();
-    }, LONG_PRESS_MS);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!timerRef.current) return;
-    const dx = e.clientX - startPos.current.x;
-    const dy = e.clientY - startPos.current.y;
-    if (dx * dx + dy * dy > 100) {
-      clearTimer();
-    }
-  };
-
-  const handlePointerUp = () => {
-    clearTimer();
-  };
-
-  const handleContextMenu = (e: React.MouseEvent) => {
-    if (firedRef.current) {
-      e.preventDefault();
-    }
-  };
 
   return (
     <div
-      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-4 sm:p-5 transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] select-none`}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={clearTimer}
-      onContextMenu={handleContextMenu}
+      className={`rounded-xl border-2 ${styles.border} ${styles.bg} p-4 sm:p-5 transition-all hover:shadow-lg hover:-translate-y-0.5`}
     >
       <div className="flex items-start justify-between mb-2 sm:mb-3">
         <h3 className="font-bold text-gray-900 text-sm leading-tight">
           {band.name}
         </h3>
         <button
-          onClick={(e) => { e.stopPropagation(); onDelete(); }}
-          onPointerDown={(e) => e.stopPropagation()}
+          onClick={onDelete}
           className="w-5 h-5 flex items-center justify-center rounded-full text-gray-400 hover:text-red-600 hover:bg-red-100 transition-colors -mt-1 -mr-1"
           aria-label="Remover faixa"
         >

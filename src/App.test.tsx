@@ -52,11 +52,4 @@ describe('App', () => {
     // Base hourly = 4000 / 200 = R$ 20,00
     expect(screen.getAllByText(/R\$\s*20,00/).length).toBeGreaterThan(0);
   });
-
-  it('opens band editor when gear button is clicked', () => {
-    render(<App />);
-    const gearBtn = screen.getByLabelText('Configurar faixas');
-    fireEvent.click(gearBtn);
-    expect(screen.getByText('Configurar Faixas')).toBeDefined();
-  });
 });

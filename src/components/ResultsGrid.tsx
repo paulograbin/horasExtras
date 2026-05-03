@@ -4,12 +4,11 @@ import { BandCard } from './BandCard';
 
 interface ResultsGridProps {
   results: CalculationResult[];
-  onLongPressBand: (bandId: string) => void;
   onDeleteBand: (bandId: string) => void;
   onAddBand: (name: string, multiplier: number) => void;
 }
 
-export function ResultsGrid({ results, onLongPressBand, onDeleteBand, onAddBand }: ResultsGridProps) {
+export function ResultsGrid({ results, onDeleteBand, onAddBand }: ResultsGridProps) {
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState('');
   const [newMultiplier, setNewMultiplier] = useState('');
@@ -33,7 +32,6 @@ export function ResultsGrid({ results, onLongPressBand, onDeleteBand, onAddBand 
           <BandCard
             key={result.band.id}
             result={result}
-            onLongPress={() => onLongPressBand(result.band.id)}
             onDelete={() => onDeleteBand(result.band.id)}
           />
         ))}
