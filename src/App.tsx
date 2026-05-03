@@ -6,7 +6,6 @@ import { Header } from './components/Header';
 import { SalaryInput } from './components/SalaryInput';
 import { ResultsGrid } from './components/ResultsGrid';
 import { HoursCalculator } from './components/HoursCalculator';
-import { Footer } from './components/Footer';
 import { logEvent } from './utils/logger';
 
 function App() {
@@ -60,7 +59,6 @@ function App() {
         onAddBand={addBand}
       />
       <HoursCalculator results={results} />
-      <Footer />
     </div>
   );
 }
