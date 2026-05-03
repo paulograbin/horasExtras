@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# Calculadora de Horas Extras
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A calculator for Brazilian overtime pay rates. Enter your gross monthly salary and instantly see your hourly rate across different overtime bands (50%, 75%, night shift, weekends, holidays, on-call, etc.).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Real-time hourly rate calculation across configurable bands
+- Add/remove bands directly from the grid
+- Hours-to-pay calculator (select a band, enter hours worked, see the total)
+- Persists salary and band configuration in localStorage
+- Responsive design (mobile-first)
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React 19 + TypeScript
+- **Build:** Vite 8
+- **Styling:** Tailwind CSS 4
+- **Hosting:** Cloudflare Workers (static assets + Worker entry)
+- **Testing:** Vitest + React Testing Library
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── App.tsx                  # Root component, state management, localStorage persistence
+├── main.tsx                 # React DOM entry point
+├── worker.ts               # Cloudflare Worker entry (serves assets + /api/events)
+├── config.ts               # Default bands and constants (HORAS_MENSAIS = 200)
+├── types/index.ts           # TypeScript interfaces (Band, Config, CalculationResult)
+├── utils/
+│   ├── calculations.ts      # Core math: base hourly rate × multiplier per band
+│   └── logger.ts            # Analytics event batching and flush to /api/events
+└── components/
+    ├── Header.tsx           # App title
+    ├── SalaryInput.tsx      # Masked currency input (R$)
+    ├── ResultsGrid.tsx      # Band cards grid + inline add-band form
+    ├── BandCard.tsx         # Single band card with X-to-delete
+    ├── HoursCalculator.tsx  # Hours × rate = total pay calculator
+    └── Footer.tsx           # Footer
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+State lives in `App.tsx` and is persisted to `localStorage` on every change. The `ResultsGrid` handles band add/remove directly on the grid without a modal.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deployment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Hosted on Cloudflare Workers at:
+
 ```
+https://horasextras.paulo-grabin.workers.dev
+```
+
+Deployed via:
+
+```bash
+npm run deploy
+```
+
+This runs `tsc -b && vite build && wrangler deploy`, which compiles TypeScript, builds static assets with Vite, and deploys the Worker + assets to Cloudflare.
+
+## Running Locally
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server (Vite, hot reload)
+npm run dev
+
+# Run tests
+npm test
+
+# Preview production build with Wrangler locally
+npm run preview
+
+# Lint
+npm run lint
+```
+
+## Configuration
+
+The default bands are defined in `src/config.ts`. Users can add/remove bands at runtime from the UI — changes persist in localStorage.
