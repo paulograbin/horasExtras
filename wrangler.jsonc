@@ -3,11 +3,18 @@
   "name": "horasextras",
   "main": "src/worker.ts",
   "compatibility_date": "2026-05-02",
-  "observability": {
-    "enabled": true
-  },
   "assets": {
     "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true
+    }
   },
   "compatibility_flags": [
     "nodejs_compat"
