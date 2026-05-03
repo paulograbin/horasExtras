@@ -8,6 +8,7 @@ import { ResultsGrid } from './components/ResultsGrid';
 import { HoursCalculator } from './components/HoursCalculator';
 import { BandEditor } from './components/BandEditor';
 import { Footer } from './components/Footer';
+import { logEvent } from './utils/logger';
 
 function App() {
   const [salary, setSalary] = useState(() => {
@@ -41,11 +42,33 @@ function App() {
     setEditorOpen(true);
   };
 
+  const deleteBand = (bandId: string) => {
+    const band = bands.find((b) => b.id === bandId);
+    logEvent('band_deleted', { bandId, bandName: band?.name });
+    setBands((prev) => prev.filter((b) => b.id !== bandId));
+  };
+
+  const addBand = (name: string, multiplier: number) => {
+    const newBand: Band = {
+      id: `band_${Date.now()}`,
+      name,
+      multiplier,
+      category: 'overtime',
+    };
+    logEvent('band_added', { bandId: newBand.id, bandName: name });
+    setBands((prev) => [...prev, newBand]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Header onOpenEditor={() => { setFocusBandId(null); setEditorOpen(true); }} />
       <SalaryInput salary={salary} onChange={setSalary} />
-      <ResultsGrid results={results} onLongPressBand={openEditorForBand} />
+      <ResultsGrid
+        results={results}
+        onLongPressBand={openEditorForBand}
+        onDeleteBand={deleteBand}
+        onAddBand={addBand}
+      />
       <HoursCalculator results={results} />
       <Footer />
       {editorOpen && (

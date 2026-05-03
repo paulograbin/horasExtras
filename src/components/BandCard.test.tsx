@@ -10,17 +10,17 @@ const mockResult: CalculationResult = {
 
 describe('BandCard', () => {
   it('renders band name', () => {
-    render(<BandCard result={mockResult} onLongPress={() => {}} />);
+    render(<BandCard result={mockResult} onLongPress={() => {}} onDelete={() => {}} />);
     expect(screen.getByText('Extra 50%')).toBeDefined();
   });
 
   it('renders formatted hourly value', () => {
-    render(<BandCard result={mockResult} onLongPress={() => {}} />);
+    render(<BandCard result={mockResult} onLongPress={() => {}} onDelete={() => {}} />);
     expect(screen.getByText(/R\$\s*30,00/)).toBeDefined();
   });
 
   it('renders multiplier', () => {
-    render(<BandCard result={mockResult} onLongPress={() => {}} />);
+    render(<BandCard result={mockResult} onLongPress={() => {}} onDelete={() => {}} />);
     expect(screen.getByText(/base × 1\.5/)).toBeDefined();
   });
 
@@ -33,7 +33,7 @@ describe('BandCard', () => {
   it('fires onLongPress after 500ms hold', () => {
     vi.useFakeTimers();
     const onLongPress = vi.fn();
-    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} />);
+    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} onDelete={() => {}} />);
     const card = container.firstElementChild as HTMLElement;
 
     card.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 0, clientY: 0 }));
@@ -46,7 +46,7 @@ describe('BandCard', () => {
   it('does NOT fire onLongPress on short tap', () => {
     vi.useFakeTimers();
     const onLongPress = vi.fn();
-    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} />);
+    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} onDelete={() => {}} />);
     const card = container.firstElementChild as HTMLElement;
 
     card.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 0, clientY: 0 }));
@@ -61,7 +61,7 @@ describe('BandCard', () => {
   it('cancels long-press if pointer moves > 10px', () => {
     vi.useFakeTimers();
     const onLongPress = vi.fn();
-    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} />);
+    const { container } = render(<BandCard result={mockResult} onLongPress={onLongPress} onDelete={() => {}} />);
     const card = container.firstElementChild as HTMLElement;
 
     card.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 0, clientY: 0 }));

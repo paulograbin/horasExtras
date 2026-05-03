@@ -5,6 +5,7 @@ import { formatBRL } from '../utils/calculations';
 interface BandCardProps {
   result: CalculationResult;
   onLongPress: () => void;
+  onDelete: () => void;
 }
 
 const LONG_PRESS_MS = 500;
@@ -38,7 +39,7 @@ const categoryStyles: Record<BandCategory, { border: string; bg: string; badge: 
   },
 };
 
-export function BandCard({ result, onLongPress }: BandCardProps) {
+export function BandCard({ result, onLongPress, onDelete }: BandCardProps) {
   const { band, valorHora } = result;
   const styles = categoryStyles[band.category];
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -93,6 +94,17 @@ export function BandCard({ result, onLongPress }: BandCardProps) {
         <h3 className="font-bold text-gray-900 text-sm leading-tight">
           {band.name}
         </h3>
+        <button
+          onClick={(e) => { e.stopPropagation(); onDelete(); }}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="w-5 h-5 flex items-center justify-center rounded-full text-gray-400 hover:text-red-600 hover:bg-red-100 transition-colors -mt-1 -mr-1"
+          aria-label="Remover faixa"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
 
       <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
