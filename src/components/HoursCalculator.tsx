@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { CalculationResult, BandCategory } from '../types';
-import { formatBRL } from '../utils/calculations';
+import { formatBRL, calculateDSR } from '../utils/calculations';
+import { DSR_RATE } from '../config';
 import { logEvent } from '../utils/logger';
 
 const categoryBorder: Record<BandCategory, string> = {
@@ -35,6 +36,17 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
     (sum, r) => sum + r.valorHora * (hours[r.band.id] || 0),
     0
   );
+
+  // DSR incide sobre as horas extras (todas as faixas exceto a hora normal).
+  const totalHE = results.reduce(
+    (sum, r) =>
+      r.band.category === 'base'
+        ? sum
+        : sum + r.valorHora * (hours[r.band.id] || 0),
+    0
+  );
+  const dsr = calculateDSR(totalHE, DSR_RATE);
+  const totalComDsr = grandTotal + dsr;
 
   return (
     <section className="max-w-5xl mx-auto px-4 pb-8 w-full">
@@ -113,14 +125,42 @@ export function HoursCalculator({ results }: HoursCalculatorProps) {
           );
         })}
 
-        {/* Total */}
-        <div className="sticky bottom-0 flex items-center justify-between px-4 sm:px-5 py-4 bg-gray-50 border-t-2 border-gray-300">
-          <span className="text-base font-bold text-gray-900">Total</span>
-          <span className="text-lg font-bold text-green-700">
+        {/* Total das faixas */}
+        <div className="flex items-center justify-between px-4 sm:px-5 py-3 bg-gray-50 border-t border-gray-200">
+          <span className="text-sm font-medium text-gray-700">Total</span>
+          <span className="text-base font-semibold text-gray-900">
             {formatBRL(grandTotal)}
           </span>
         </div>
+
+        {/* DSR estimado */}
+        <div className="flex items-center justify-between px-4 sm:px-5 py-3 bg-gray-50 border-t border-gray-200">
+          <span className="text-sm font-medium text-gray-700">
+            DSR estimado
+            <span className="ml-1 text-xs text-gray-400">
+              (~{Math.round(DSR_RATE * 100)}% das HE)
+            </span>
+          </span>
+          <span className="text-base font-semibold text-gray-900">
+            {formatBRL(dsr)}
+          </span>
+        </div>
+
+        {/* Total com DSR */}
+        <div className="sticky bottom-0 flex items-center justify-between px-4 sm:px-5 py-4 bg-gray-50 border-t-2 border-gray-300">
+          <span className="text-base font-bold text-gray-900">Total com DSR</span>
+          <span className="text-lg font-bold text-green-700">
+            {formatBRL(totalComDsr)}
+          </span>
+        </div>
       </div>
+
+      <p className="mt-3 text-xs text-gray-500 leading-relaxed">
+        DSR (Descanso Semanal Remunerado, Súmula 172 TST) é uma estimativa de
+        ~{Math.round(DSR_RATE * 100)}% sobre o total de horas extras. O valor
+        exato varia por mês: DSR = total de HE × (domingos + feriados) ÷ dias
+        úteis.
+      </p>
     </section>
   );
 }

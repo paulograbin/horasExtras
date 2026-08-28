@@ -10,6 +10,17 @@ export function calculateAllBands(salary: number, config: Config): CalculationRe
   }));
 }
 
+/**
+ * DSR — Descanso Semanal Remunerado (Súmula 172 TST).
+ *
+ * Aplica o ratio sobre o total de horas extras do mês. O ratio exato é
+ * `dias de DSR / dias úteis`; usamos a estimativa média (~22%) por padrão.
+ */
+export function calculateDSR(totalHE: number, rate: number): number {
+  if (totalHE <= 0 || rate <= 0) return 0;
+  return totalHE * rate;
+}
+
 const brlFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL',

@@ -1,4 +1,4 @@
-import { calculateAllBands, formatBRL } from './calculations';
+import { calculateAllBands, calculateDSR, formatBRL } from './calculations';
 import type { Config } from '../types';
 
 const testConfig: Config = {
@@ -52,6 +52,30 @@ describe('calculateAllBands', () => {
     const results = calculateAllBands(4000, testConfig);
     expect(results[0].band).toBe(testConfig.bands[0]);
     expect(results[1].band.id).toBe('extra50');
+  });
+});
+
+describe('calculateDSR', () => {
+  it('applies the rate to the overtime total', () => {
+    expect(calculateDSR(1000, 0.22)).toBeCloseTo(220);
+  });
+
+  it('matches the exact monthly ratio when supplied', () => {
+    // 08/2026: 5 dias de DSR / 26 dias úteis ≈ 19,23%
+    const ratio = 5 / 26;
+    expect(calculateDSR(4593.83, ratio)).toBeCloseTo(883.43, 1);
+  });
+
+  it('returns zero for zero total HE', () => {
+    expect(calculateDSR(0, 0.22)).toBe(0);
+  });
+
+  it('returns zero for non-positive total HE', () => {
+    expect(calculateDSR(-100, 0.22)).toBe(0);
+  });
+
+  it('returns zero for a non-positive rate', () => {
+    expect(calculateDSR(1000, 0)).toBe(0);
   });
 });
 
