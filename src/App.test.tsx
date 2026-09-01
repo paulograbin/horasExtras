@@ -42,6 +42,38 @@ describe('App', () => {
     expect(screen.getAllByText('Minha Faixa').length).toBeGreaterThan(0);
   });
 
+  it('restores default bands and drops custom ones when reset is confirmed', () => {
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+    localStorage.setItem(
+      'bands',
+      JSON.stringify([{ id: 'custom', name: 'Minha Faixa', multiplier: 2.0, category: 'overtime' }])
+    );
+    render(<App />);
+    expect(screen.getAllByText('Minha Faixa').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByText('Restaurar faixas padrão'));
+
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(screen.queryByText('Minha Faixa')).toBeNull();
+    expect(screen.getAllByText(DEFAULT_BANDS[0].name).length).toBeGreaterThan(0);
+    confirmSpy.mockRestore();
+  });
+
+  it('keeps custom bands when reset is cancelled', () => {
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    localStorage.setItem(
+      'bands',
+      JSON.stringify([{ id: 'custom', name: 'Minha Faixa', multiplier: 2.0, category: 'overtime' }])
+    );
+    render(<App />);
+
+    fireEvent.click(screen.getByText('Restaurar faixas padrão'));
+
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(screen.getAllByText('Minha Faixa').length).toBeGreaterThan(0);
+    confirmSpy.mockRestore();
+  });
+
   it('recalculates results when salary changes', () => {
     render(<App />);
     const input = screen.getByLabelText('Salário Mensal Bruto');

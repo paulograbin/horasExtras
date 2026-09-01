@@ -49,6 +49,11 @@ function App() {
     setBands((prev) => [...prev, newBand]);
   };
 
+  const resetBands = () => {
+    logEvent('bands_reset', { previousCount: bands.length });
+    setBands(DEFAULT_BANDS);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Header />
@@ -57,6 +62,7 @@ function App() {
         results={results}
         onDeleteBand={deleteBand}
         onAddBand={addBand}
+        onResetBands={resetBands}
       />
       <HoursCalculator results={results} />
     </div>

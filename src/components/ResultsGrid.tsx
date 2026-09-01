@@ -6,9 +6,10 @@ interface ResultsGridProps {
   results: CalculationResult[];
   onDeleteBand: (bandId: string) => void;
   onAddBand: (name: string, multiplier: number) => void;
+  onResetBands: () => void;
 }
 
-export function ResultsGrid({ results, onDeleteBand, onAddBand }: ResultsGridProps) {
+export function ResultsGrid({ results, onDeleteBand, onAddBand, onResetBands }: ResultsGridProps) {
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState('');
   const [newMultiplier, setNewMultiplier] = useState('');
@@ -21,6 +22,12 @@ export function ResultsGrid({ results, onDeleteBand, onAddBand }: ResultsGridPro
     setNewName('');
     setNewMultiplier('');
     setAdding(false);
+  };
+
+  const handleReset = () => {
+    if (window.confirm('Restaurar as faixas padrão? As faixas personalizadas serão removidas.')) {
+      onResetBands();
+    }
   };
 
   if (results.length === 0) return null;
@@ -82,6 +89,15 @@ export function ResultsGrid({ results, onDeleteBand, onAddBand }: ResultsGridPro
             <span className="text-sm font-medium">Nova Faixa</span>
           </button>
         )}
+      </div>
+
+      <div className="max-w-5xl mx-auto mt-4 flex justify-center">
+        <button
+          onClick={handleReset}
+          className="text-xs font-medium text-gray-400 hover:text-gray-600 underline underline-offset-2 transition-colors"
+        >
+          Restaurar faixas padrão
+        </button>
       </div>
     </div>
   );
