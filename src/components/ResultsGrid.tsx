@@ -30,8 +30,6 @@ export function ResultsGrid({ results, onDeleteBand, onAddBand, onResetBands }: 
     }
   };
 
-  if (results.length === 0) return null;
-
   return (
     <div className="px-4 pb-6 sm:pb-8">
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">

@@ -74,6 +74,21 @@ describe('App', () => {
     confirmSpy.mockRestore();
   });
 
+  it('keeps the reset button reachable after all bands are deleted', () => {
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+    localStorage.setItem('bands', JSON.stringify([]));
+    render(<App />);
+
+    // Empty state: no bands, but reset must still be available.
+    expect(screen.queryByText(DEFAULT_BANDS[0].name)).toBeNull();
+    const resetButton = screen.getByText('Restaurar faixas padrão');
+
+    fireEvent.click(resetButton);
+
+    expect(screen.getAllByText(DEFAULT_BANDS[0].name).length).toBeGreaterThan(0);
+    confirmSpy.mockRestore();
+  });
+
   it('recalculates results when salary changes', () => {
     render(<App />);
     const input = screen.getByLabelText('Salário Mensal Bruto');
